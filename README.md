@@ -8,3 +8,5 @@
 - masuk kefolder
 - buka git bash lagi
 - ketik "npm install"
+- buat database bernama "docker_jwt_user" dengan tabel "user" diisi sekalian
+- buka terminal "nodemon server.js"
