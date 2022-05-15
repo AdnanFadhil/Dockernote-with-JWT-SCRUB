@@ -2,7 +2,7 @@ const express = require("express");
 const jwt = require('jsonwebtoken');
 const app = express();
 
-const conn1 = require("./app/config/db.config");
+const {conn1,conn2} = require("./app/config/db.config");
 
 app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to bezkoder application." });
 });
 
-app.get("/user",(req,res) => {
+const jwtCheck = (req, res) => {
     if(
         !req.headers.authorization ||
         !req.headers.authorization.startsWith('Bearer') ||
@@ -23,7 +23,12 @@ app.get("/user",(req,res) => {
         message: "Please provide the token",
         });
     }
-    
+}
+
+app.get("/user",(req,res) => {
+
+    jwtCheck(req, res);
+
     conn1.query("SELECT * FROM user",(error,result) => {
         res.json({body: result });
     })
@@ -33,7 +38,6 @@ app.post("/login",(req, res) => {
     let sql = `SELECT * FROM user WHERE email = '${req.body.email}' AND password = '${req.body.password}' `;
     conn1.query(sql,
     (error,result) => {
-        console.log(result);
         if(result.length != 0) {
             const token = jwt.sign({
                 id:result[0].id,
@@ -47,6 +51,37 @@ app.post("/login",(req, res) => {
         }else{
             res.status(300).json({message: 'user tidak ditemukan' });
         }
+    })
+})
+
+app.post("/register",(req, res) => {
+    conn1.query('INSERT INTO user ( email, password, nama ) VALUES (?)',
+    [req.body],
+    (error,result) => {
+        res.send({
+            msg: 'Registered in!',
+        });
+       
+    })
+})
+
+app.get("/buku",(req,res) => {
+    jwtCheck(req, res);
+    conn2.query("SELECT * FROM buku",(error,result) => {
+        res.json({body: result });
+    })
+})
+
+app.post("/buku",(req,res) => {
+    //jwtCheck(req, res);
+    console.log(req.body);
+    conn2.query('INSERT INTO buku (judul,penulis) VALUES (?)',
+    [req.body],
+    (error,result) => {
+        // res.json({body: result });
+        res.send({
+            msg: 'Registered in!',
+        });
     })
 })
 
