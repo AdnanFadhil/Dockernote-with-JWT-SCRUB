@@ -55,8 +55,8 @@ app.post("/login",(req, res) => {
 })
 
 app.post("/register",(req, res) => {
-    conn1.query('INSERT INTO user ( email, password, nama ) VALUES (?)',
-    [req.body],
+    let sql = `INSERT INTO user ( email, password, nama ) VALUES ('${req.body.email}','${req.body.password}','${req.body.nama}')`;
+    conn1.query(sql,
     (error,result) => {
         res.send({
             msg: 'Registered in!',
@@ -73,15 +73,11 @@ app.get("/buku",(req,res) => {
 
 
 app.post("/buku",(req,res) => {
-    //jwtCheck(req, res);
-    console.log(req.body);
-    conn2.query('INSERT INTO buku (judul,penulis) VALUES (?)',
-    [req.body],
+    jwtCheck(req, res);
+    let sql1 = `INSERT INTO buku (judul,penulis) VALUES ('${req.body.judul}','${req.body.penulis}')`;
+    conn2.query(sql1,
     (error,result) => {
-        // res.json({body: result });
-        res.send({
-            msg: 'Registered in!',
-        });
+        res.json({body: result });
     })
 })
 
