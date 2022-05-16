@@ -61,7 +61,6 @@ app.post("/register",(req, res) => {
         res.send({
             msg: 'Registered in!',
         });
-       
     })
 })
 
@@ -71,6 +70,7 @@ app.get("/buku",(req,res) => {
         res.json({body: result });
     })
 })
+
 
 app.post("/buku",(req,res) => {
     //jwtCheck(req, res);
