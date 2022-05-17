@@ -80,6 +80,15 @@ app.get("/buku/:id",(req,res) => {
     })
 })
 
+app.get("/buku/edit/:id",(req,res) => {
+    jwtCheck(req, res);
+    conn2.query('UPDATE buku SET judul = ? , penulis = ? WHERE id=?',
+    [req.body.judul, req.body.penulis,req.params.id],
+    (error,result) => {
+        res.json({body: result });
+    })
+})
+
 
 app.post("/buku",(req,res) => {
     jwtCheck(req, res);
