@@ -71,6 +71,15 @@ app.get("/buku",(req,res) => {
     })
 })
 
+app.get("/buku/:id",(req,res) => {
+    jwtCheck(req, res);
+    conn2.query('DELETE FROM buku WHERE id=?',
+    [req.params.id],
+    (error,result) => {
+        res.json({body: result });
+    })
+})
+
 
 app.post("/buku",(req,res) => {
     jwtCheck(req, res);
