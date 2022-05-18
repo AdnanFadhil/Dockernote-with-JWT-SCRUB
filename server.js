@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Welcome to bezkoder application docker" });
 });
 
 const jwtCheck = (req, res) => {
@@ -24,6 +24,43 @@ const jwtCheck = (req, res) => {
         });
     }
 }
+
+app.get('/create-table-user', function (req, res) {
+    conn1.connect(function(err) {
+      if (err) throw err;
+      const sql = `
+      CREATE TABLE IF NOT EXISTS user (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        email VARCHAR(255),
+        password VARCHAR(255),
+        nama VARCHAR(255),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )  ENGINE=INNODB;
+    `;
+      con.query(sql, function (err, result) {
+        if (err) throw err;
+        res.send("user table created");
+      });
+    });
+})
+
+app.get('/create-table-buku', function (req, res) {
+    conn2.connect(function(err) {
+      if (err) throw err;
+      const sql = `
+      CREATE TABLE IF NOT EXISTS buku (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        judul VARCHAR(255),
+        penulis VARCHAR(255),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )  ENGINE=INNODB;
+    `;
+      con.query(sql, function (err, result) {
+        if (err) throw err;
+        res.send("buku table created");
+      });
+    });
+})
 
 app.get("/user",(req,res) => {
 
