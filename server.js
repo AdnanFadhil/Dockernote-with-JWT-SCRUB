@@ -37,7 +37,7 @@ app.get('/create-table-user', function (req, res) {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )  ENGINE=INNODB;
     `;
-      con.query(sql, function (err, result) {
+      conn1.query(sql, function (err, result) {
         if (err) throw err;
         res.send("user table created");
       });
@@ -55,7 +55,7 @@ app.get('/create-table-buku', function (req, res) {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )  ENGINE=INNODB;
     `;
-      con.query(sql, function (err, result) {
+      conn2.query(sql, function (err, result) {
         if (err) throw err;
         res.send("buku table created");
       });
